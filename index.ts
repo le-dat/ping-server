@@ -1,6 +1,8 @@
 import express from 'express'
 import { autoPingServers } from './controllers/ping'
 import routes from './routes'
+import helmet from 'helmet'
+import cors from 'cors'
 
 // Create an instance of Express
 const app = express()
@@ -10,7 +12,10 @@ export const PORT: number = 5000
 setInterval(autoPingServers, 300000 + Math.floor(Math.random() * 20000))
 
 // Middleware to parse JSON bodies
+app.use(helmet())
+app.use(cors())
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 // Routes
 app.use('/api/ping', routes.pingRoutes)
