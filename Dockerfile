@@ -1,23 +1,23 @@
 # Use the official Node.js image as the base image
-FROM node:14
+FROM node:20.16
 
-# Set the working directory
-WORKDIR /usr/src/app
+# Set the working directory inside the container
+WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
-# Install dependencies
+# Install the dependencies
 RUN npm install
 
-# Copy the rest of the application code
+# Copy the .env file to the working directory
+COPY .env ./
+
+# Copy the rest of the application code to the working directory
 COPY . .
 
-# Build the TypeScript code
-RUN npm run build
-
 # Expose the port the app runs on
-EXPOSE 4000
+EXPOSE 3000
 
-# Command to run the application
+# Define the command to run the application
 CMD ["npm", "start"]
